@@ -80,9 +80,10 @@ def modifyOptScript(file_path,nxt_dir_name):
 def checkProcess(process):
   command=' '.join(process.args)
   if process.returncode==0:
-    print('command:{command} exected successfully')
+    print(f'command:{command} executed successfully')
   else:
-    print('command:{command} encountered an error')
+    print(f'command:{command} encountered an error')
+    print(process.stderr)
 
 def runJob(prev_dir_name,nxt_dir_name,steps=list(range(1,10))):
   prev_dir_path=os.path.join(config.proj_dir_abs_path,prev_dir_name)
@@ -126,7 +127,8 @@ def runJob(prev_dir_name,nxt_dir_name,steps=list(range(1,10))):
   if 4 in steps:
     print('step 4 running...')
     print(f'copying files from {config.common_files_dir_abs_path}')
-    p=subprocess.run(['cp','-a',config.common_files_dir_abs_path,nxt_dir_path]) 
+    common_files_dir_abs_path=os.path.join(config.common_files_dir_abs_path,'.')
+    p=subprocess.run(['cp','-a',common_files_dir_abs_path,nxt_dir_path]) 
     checkProcess(p)
     print('step 4 finished')
 
