@@ -1,0 +1,13 @@
+code_dir_abs_path='.'
+proj_dir_abs_path='/home/vanka/siddharth/CisHH'
+init_job_dir_name='C2.4'
+init_job_file_name='C2.4.xyz'
+job_dir_name_suffix='C'
+common_files_dir_abs_path='common_files'
+atom0=0
+atom1=55
+moiety=list(range(55,89))
+init_bond_length=2.4
+final_bond_length=5.0
+step_size=0.1
+converge_file_name='GEO_OPT_CONVERGED'
