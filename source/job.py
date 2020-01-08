@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import subprocess
+from subprocess import PIPE
 import os
 import sys
 sys.path.extend([',','..'])
@@ -87,7 +88,16 @@ def checkProcess(process):
 
 def runJob(prev_dir_name,nxt_dir_name,steps=list(range(1,10))):
   prev_dir_path=os.path.join(config.proj_dir_abs_path,prev_dir_name)
-  nxt_dir_path=os.path.join(config.proj_dir_abs_path,nxt_dir_name)
+  nxt_dir_path=os.path.join(config.proj_dir_abs_path,nxt_dir_name) 
+  stop_flag=wait.checkJobStatus(nxt_dir_name,step=0)
+  if stop_flag:
+    print(f'Job: {nxt_dir_name} is already CONVERGED. Proceeding ahead...')
+    return
+  else:
+    print(f'Job: {nxt_dir_name} is a new job. Preparing to submit the job...')
+    if os.path.isdir(nxt_dir_path):
+      print(f'Removing files from {nxt_dir_name}')
+      subprocess.run(['rm '+nxt_dir_path+'/*'],shell=True)
 
   #step_1
   if 1 in steps:
@@ -117,7 +127,9 @@ def runJob(prev_dir_name,nxt_dir_name,steps=list(range(1,10))):
     prev_file_path=os.path.join(nxt_dir_path,nxt_dir_name+'.xyz')
     new_file_path=os.path.join(nxt_dir_path,'coord')
     print(f'x2t converting {prev_file_path} to {new_file_path}...')
-    p=subprocess.run(['x2t',prev_file_path],stdout=open(new_file_path,'w'),encoding='utf-8')
+    new_file=open(new_file_path,'w')
+    p=subprocess.run(['x2t',prev_file_path],stdout=new_file,encoding='utf-8')
+    new_file.close()
     checkProcess(p) 
     print(f'fixing atoms {config.atom0},{config.atom1}...')
     fixAtoms(new_file_path,atoms_list=[config.atom0,config.atom1])
@@ -171,7 +183,7 @@ def runJob(prev_dir_name,nxt_dir_name,steps=list(range(1,10))):
     p=subprocess.run(['qsub','opt_woody_script'],cwd=nxt_dir_path)
     checkProcess(p)
     print(f'Waiting for job {nxt_dir_name} to finish...')
-    wait.wait(nxt_dir_path,job_name=nxt_dir_name)
+    wait.wait(nxt_dir_name)
     print('step 9 finished')
   
 if __name__=='__main__':
