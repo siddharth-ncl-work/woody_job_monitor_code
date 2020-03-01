@@ -9,3 +9,4 @@ moiety=list(range(56,89))
 init_bond_length=2.4
 final_bond_length=5.0
 step_size=0.1
+version=1.0.0
