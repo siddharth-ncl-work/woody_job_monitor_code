@@ -1,11 +1,11 @@
 code_dir_abs_path='/home/vanka/siddharth/woody_job_monitor_code'
-proj_dir_abs_path='/home/vanka/siddharth/CisHH'
-init_job_dir_name='C2.4'
-job_dir_name_suffix='C'
-common_files_dir_abs_path='/home/vanka/siddharth/CisHH/common_files'
+proj_dir_abs_path='/home/vanka/siddharth/TransHH'
+init_job_dir_name='T2.4'
+job_dir_name_suffix='T'
+common_files_dir_abs_path='/home/vanka/siddharth/TransHH/common_files'
 atom0=0
-atom1=55
-moiety=list(range(55,89))
+atom1=56
+moiety=list(range(56,89))
 init_bond_length=2.4
 final_bond_length=5.0
 step_size=0.1
